@@ -21,7 +21,7 @@ define( 'PLUGIN_NAMESPACE_URL', plugins_url( '', __FILE__ ) );
 define( 'PLUGIN_NAMESPACE_TEXT_DOMAIN', 'codeware-plugin-scaffold' );
 define( 'PLUGIN_NAMESPACE_VERSION', '1.0.0');
 
-require_once __DIR__ . '/inc/includes.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 // init plugin
 Plugin::init();

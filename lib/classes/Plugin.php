@@ -1,6 +1,6 @@
 <?php 
 
-namespace WGJ;
+namespace PLUGIN_NAMESPACE;
 
 class Plugin{
     public static function init(){
