@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'PIC\\GF\\' => array($baseDir . '/lib/classes'),
+    'WCEPG\\' => array($baseDir . '/lib/classes'),
 );
