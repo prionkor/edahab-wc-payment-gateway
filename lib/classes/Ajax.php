@@ -1,6 +1,6 @@
 <?php 
 
-namespace PLUGIN_NAMESPACE;
+namespace WCEPG;
 
 class Ajax{
 	public static function init() {

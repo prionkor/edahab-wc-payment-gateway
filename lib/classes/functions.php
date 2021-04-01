@@ -1,7 +1,7 @@
 <?php 
 
 // add helper functions here
-// call from other files like this PLUGIN_NAMESPACE/function_name()
+// call from other files like this WCEPG/function_name()
 
-namespace PLUGIN_NAMESPACE;
+namespace WCEPG;
 
