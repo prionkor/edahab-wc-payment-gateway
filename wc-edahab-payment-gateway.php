@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:     WC Edahab Payment Gateway
+ * Plugin Name:     Woo Edahab Payment Gateway
  * Plugin URI:      https://codeware.io
  * Description:    	Edahab payment gateway for WordPress
  * Author:          Sisir K. Adhikari
@@ -25,6 +25,7 @@ global $wc_activated;
 $wc_activated = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/lib/functions.php';
 
 // init plugin
 Plugin::init();
