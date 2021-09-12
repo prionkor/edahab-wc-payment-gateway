@@ -104,17 +104,18 @@ class Edahab_Gateway extends \WC_Payment_Gateway
 	public function process_payment($order_id)
 	{
 
-		$order = wc_get_order($order_id);
+		$order = \wc_get_order($order_id);
 
 		// Mark as on-hold (we're awaiting the payment)
 		$order->update_status('on-hold', __('Awaiting Edahab payment', 'wcepg'));
 		// TODO: More validation needed for this number
 		$number = $this->number ? $this->number : sanitize_text_field(trim($_POST[$this->id . '-phone-number']));
-
+        $number = ltrim($number, '0');
+        
 		if (!ctype_digit($number)) {
 			$msg = __('Invalid number! Please only add phone digits, not spaces, signs or hyphens.', 'wcepg');
 			if (!$this->is_rest_api) {
-				wc_add_notice($msg, 'error');
+				\wc_add_notice($msg, 'error');
 				return;
 			}
 
@@ -123,20 +124,21 @@ class Edahab_Gateway extends \WC_Payment_Gateway
 		}
 
 		$invoice = $this->create_invoice($order, $number);
-
+        // error_log(json_encode($invoice));
 		if ($invoice->status === 'error') {
-			wc_add_notice(__('Payment error:', 'wcepg') . $invoice->message, 'error');
+		    if( !$this->is_rest_api )
+			    \wc_add_notice(__('Payment error:', 'wcepg') . $invoice->message, 'error');
 			return;
 		}
 
 		// Empty cart for non rest cases
 		if (!$this->is_rest_api) {
-			WC()->cart->empty_cart();
+			\WC()->cart->empty_cart();
 		}
 
 		// add a order meta with edahab invoice id
 		// we will need this on thank you for verifying payments
-		$edahabInvoiceId = $invoice->data->invoiceId;
+		$edahabInvoiceId = $invoice->data->InvoiceId;
 		$order->add_order_note(__('Edahab invoice id: ', 'wcepg') . $edahabInvoiceId);
 		update_post_meta($order_id, '_edahab_invoice', $edahabInvoiceId);
 
@@ -242,7 +244,7 @@ class Edahab_Gateway extends \WC_Payment_Gateway
 		$default_fields = [
 			'phone-number' => '<p class="form-row form-row-first">
 				<label for="' . esc_attr($this->id) . '-phone-number">' . esc_html__('Phone number', 'wcepg') . '&nbsp;<span class="required">*</span></label>
-				<input id="' . esc_attr($this->id) . '-phone-number" class="input-text wc-edahab-form-phone-number" type="text" maxlength="9" autocomplete="off" placeholder="" name="' . esc_attr($this->id) . '-phone-number" />
+				<input id="' . esc_attr($this->id) . '-phone-number" class="input-text wc-edahab-form-phone-number" type="text" maxlength="10" autocomplete="off" placeholder="" name="' . esc_attr($this->id) . '-phone-number" />
 			</p>',
 		];
 
